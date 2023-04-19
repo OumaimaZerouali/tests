@@ -1,18 +1,3 @@
-workflows:
-  version: 2
-  # Workflow name
-  build-deploy:
-    jobs:
-      - build-and-test
-      - deploy:
-          requires:
-            # Run after all tests have passed
-            - build-and-test
-          filters:
-            branches:
-              # Only deploy on pushes to the master branch
-              only: master
-
 version: 2.1
 jobs:
   # Install dependencies and run tests
@@ -24,13 +9,28 @@ jobs:
       - run: npm ci
       - run: npm test
 
-# Build a Docker image and push to Docker Hub
-# Authenticate with Digital Ocean CLI and deploy the app
-deploy:
-  docker:
-    - image: circleci/node:12.15.0-stretch
-  steps:
-    - checkout
-    # Allow using Docker commands
-    - setup_remote_docker
-    - run: bash deploy.sh
+  # Build a Docker image and push to Docker Hub
+  # Authenticate with Digital Ocean CLI and deploy the app
+  deploy:
+    docker:
+      - image: circleci/node:12.15.0-stretch
+    steps:
+      - checkout
+      # Allow using Docker commands
+      - setup_remote_docker
+      - run: bash deploy.sh
+
+        workflows:
+          version: 2
+          # Workflow name
+          build-deploy:
+            jobs:
+              - build-and-test
+              - deploy:
+                  requires:
+                    # Run after all tests have passed
+                    - build-and-test
+                  filters:
+                    branches:
+                      # Only deploy on pushes to the master branch
+                      only: master
