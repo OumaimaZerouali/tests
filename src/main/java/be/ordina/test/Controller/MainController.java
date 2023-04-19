@@ -11,4 +11,9 @@ public class MainController {
         return "Hello World";
     }
 
+    @GetMapping("/start")
+    public String start() {
+        return "Bye World";
+    }
+
 }
