@@ -1,5 +1,5 @@
 #!/bin/sh
-IMAGE_NAME="oz/project_test"
+IMAGE_NAME="redwizardofoz/project_test"
 IMAGE_TAG=$(git rev-parse --short HEAD) # first 7 characters of the current commit hash
 
 echo "Building Docker image ${IMAGE_NAME}:${IMAGE_TAG}, and tagging as latest"
