@@ -20,17 +20,17 @@ jobs:
       - setup_remote_docker
       - run: bash deploy.sh
 
-        workflows:
-          version: 2
-          # Workflow name
-          build-deploy:
-            jobs:
+  workflows:
+    version: 2
+    # Workflow name
+    build-deploy:
+      jobs:
+        - build-and-test
+        - deploy:
+            requires:
+              # Run after all tests have passed
               - build-and-test
-              - deploy:
-                  requires:
-                    # Run after all tests have passed
-                    - build-and-test
-                  filters:
-                    branches:
-                      # Only deploy on pushes to the master branch
-                      only: master
+            filters:
+              branches:
+                # Only deploy on pushes to the master branch
+                only: master
