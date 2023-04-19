@@ -9,4 +9,3 @@ docker tag "${IMAGE_NAME}:${IMAGE_TAG}" "${IMAGE_NAME}:latest"
 echo "Authenticating and pushing image to Docker Hub"
 echo  docker login
 docker push "${IMAGE_NAME}:${IMAGE_TAG}"
-docker push "${IMAGE_NAME}:latest"
