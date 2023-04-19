@@ -7,6 +7,6 @@ docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" .
 docker tag "${IMAGE_NAME}:${IMAGE_TAG}" "${IMAGE_NAME}:latest"
 
 echo "Authenticating and pushing image to Docker Hub"
-echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+echo  docker login
 docker push "${IMAGE_NAME}:${IMAGE_TAG}"
 docker push "${IMAGE_NAME}:latest"
