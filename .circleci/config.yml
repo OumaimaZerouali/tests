@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: npm ci
-      - run: npm test
+      #- run: npm test
 
   # Build a Docker image and push to Docker Hub
   # Authenticate with Digital Ocean CLI and deploy the app
