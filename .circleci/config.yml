@@ -8,8 +8,6 @@ jobs:
       - checkout
       - run: npm ci
       #- run: npm test
-  ports:
-    - "8080:8080"
 
   # Build a Docker image and push to Docker Hub
   # Authenticate with Digital Ocean CLI and deploy the app
@@ -19,6 +17,8 @@ jobs:
         auth:
           username: redwizardofoz
           password: $DOCKERHUB_PASSWORD
+    ports:
+      - "8080:8080"
     steps:
       - checkout
       # Allow using Docker commands
