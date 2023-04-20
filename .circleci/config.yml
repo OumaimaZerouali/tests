@@ -8,6 +8,8 @@ jobs:
       - checkout
       - run: npm ci
       #- run: npm test
+  ports:
+    - "8080:8080"
 
   # Build a Docker image and push to Docker Hub
   # Authenticate with Digital Ocean CLI and deploy the app
