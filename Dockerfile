@@ -1,4 +1,4 @@
-FROM redwizardofoz/project_test
+FROM maven:3.6.3 AS maven
 RUN apt-get update && apt-get install -y maven
 COPY . /app
 WORKDIR /app
