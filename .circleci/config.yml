@@ -14,6 +14,9 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:12.15.0-stretch
+        auth:
+          username: redwizardofoz
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       # Allow using Docker commands
