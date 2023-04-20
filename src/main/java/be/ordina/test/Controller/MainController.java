@@ -16,4 +16,9 @@ public class MainController {
         return "Bye World";
     }
 
+    @GetMapping("/bye")
+    public String bye() {
+        return "Bye";
+    }
+
 }
