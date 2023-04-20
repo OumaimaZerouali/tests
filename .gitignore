@@ -1,5 +1,9 @@
 HELP.md
-target/
+#Ignore everything in target folder
+/target/*
+
+#Don't ignore jar
+!/target/test-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
