@@ -22,6 +22,8 @@ jobs:
       # Allow using Docker commands
       - setup_remote_docker
       - run: bash deploy.sh
+server:
+  port: 8080
 
 workflows:
   version: 2
