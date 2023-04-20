@@ -1,8 +1,7 @@
 FROM maven:3.6.3 AS maven
-RUN apk update && apk install -y maven
-COPY . /app
-WORKDIR /app
-RUN mvn package
+COPY pom.xml pom.xml
+RUN mvn dependency:resolveCOPY . /app
+
 
 FROM openjdk:17-jdk-alpine
 ARG JAR_FILE=target/*.jar
