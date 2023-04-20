@@ -5,7 +5,6 @@ COPY mvnw .
 COPY pom.xml .
 COPY src src
 RUN chmod +x mvnw
-RUN ./mvnw -B package
 
 FROM openjdk:17-jdk-alpine
 ARG JAR_FILE=target/*.jar
