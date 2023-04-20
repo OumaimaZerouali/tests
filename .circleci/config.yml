@@ -17,8 +17,6 @@ jobs:
         auth:
           username: redwizardofoz
           password: $DOCKERHUB_PASSWORD
-    ports:
-      - "8080:8080"
     steps:
       - checkout
       # Allow using Docker commands
