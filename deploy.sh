@@ -9,7 +9,7 @@ docker tag "${IMAGE_NAME}:${IMAGE_TAG}" "${IMAGE_NAME}:latest"
 
 echo "Copying JAR file to target folder"
 mkdir -p target
-cp target/*.jar target/test.jar
+cp target/*.jar target/test-0.0.1-SNAPSHOT.jar
 
 echo "Authenticating and pushing image to Docker Hub"
 docker login --username redwizardofoz --password $DOCKERHUB_PASSWORD

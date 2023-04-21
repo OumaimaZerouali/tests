@@ -17,4 +17,9 @@ public class Endpoints {
     }
 
 
+    @GetMapping("/others")
+    public String others() {
+        return "Endpoinst for the win";
+    }
+
 }
