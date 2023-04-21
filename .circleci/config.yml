@@ -1,12 +1,58 @@
+#version: 2.1
+#jobs:
+#  # Install dependencies and run tests
+#  build-and-test:
+#    docker:
+#      - image: circleci/node:12.15.0-stretch
+#    steps:
+#      - checkout
+#      - run: npm ci
+#      #- run: npm test
+#
+#  # Build a Docker image and push to Docker Hub
+#  # Authenticate with Digital Ocean CLI and deploy the app
+#  deploy:
+#    docker:
+#      - image: circleci/node:12.15.0-stretch
+#        auth:
+#          username: redwizardofoz
+#          password: $DOCKERHUB_PASSWORD
+#    steps:
+#      - checkout
+#      # Allow using Docker commands
+#      - setup_remote_docker
+#      # Update package sources
+#      - run: sudo apt-get update
+#      # Install required packages
+#      - run: sudo apt-get install -y openjdk-8-jre-headless tomcat8 libservlet3.1-java liblog4j1.2-java
+#      # Build the JAR file
+#      - run: mvn clean package
+#      # Build the Docker image
+#      - run: docker build -t myapp .
+#      - run: bash deploy.sh
+#
+#server:
+#  port: 8080
+#
+#workflows:
+#  version: 2
+#  # Workflow name
+#  build-deploy:
+#    jobs:
+#      - build-and-test
+#      - deploy:
+#          requires:
+#            # Run after all tests have passed
+#            - build-and-test
 version: 2.1
 jobs:
   # Install dependencies and run tests
   build-and-test:
     docker:
-      - image: circleci/node:12.15.0-stretch
+      - image: maven:3.6.3-openjdk-17
     steps:
       - checkout
-      - run: npm ci
+      - run: mvn clean package
       #- run: npm test
 
   # Build a Docker image and push to Docker Hub
@@ -21,12 +67,6 @@ jobs:
       - checkout
       # Allow using Docker commands
       - setup_remote_docker
-      # Update package sources
-      - run: sudo apt-get update
-      # Install required packages
-      - run: sudo apt-get install -y openjdk-8-jre-headless tomcat8 libservlet3.1-java liblog4j1.2-java
-      # Build the JAR file
-      - run: mvn clean package
       # Build the Docker image
       - run: docker build -t myapp .
       - run: bash deploy.sh
