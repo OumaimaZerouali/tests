@@ -92,5 +92,4 @@ workflows:
           requires:
             # Run after all tests have passed
             - build-and-test
-          environment:
-            WORKSPACE_DIR: /tmp/workspace
+
