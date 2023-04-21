@@ -75,7 +75,7 @@ jobs:
           at: /tmp/workspace
       # Allow using Docker commands
       - setup_remote_docker
-      - run: bash deploy.sh
+      - run: bash ./deploy.sh
 server:
   port: 8080
 
