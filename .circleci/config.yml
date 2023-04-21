@@ -47,6 +47,7 @@
 
 
 version: 2.1
+
 jobs:
   # Install dependencies and run tests
   build-and-test:
@@ -55,7 +56,10 @@ jobs:
     steps:
       - checkout
       - run: mvn clean package
-      #- run: cp target/test.jar /tmp
+      - persist_to_workspace:
+          root: target/
+          paths:
+            - test-0.0.1-SNAPSHOT.jar
       #- run: npm test
 
   # Build a Docker image and push to Docker Hub
@@ -67,11 +71,12 @@ jobs:
           username: redwizardofoz
           password: $DOCKERHUB_PASSWORD
     steps:
-      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
       # Allow using Docker commands
       - setup_remote_docker
       # Build the Docker image
-      - run: docker build -t myapp .
+      - run: docker build -t redwizardofoz/project_test .
       - run: bash deploy.sh
 
 server:
@@ -87,3 +92,5 @@ workflows:
           requires:
             # Run after all tests have passed
             - build-and-test
+          environment:
+            WORKSPACE_DIR: /tmp/workspace
