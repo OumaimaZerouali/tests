@@ -61,7 +61,9 @@ jobs:
           root: target/
           paths:
             - test-0.0.1-SNAPSHOT.jar
+      - run: cp target/test-0.0.1-SNAPSHOT.jar ./test-0.0.1-SNAPSHOT.jar
       - run: ls -al target
+
 
   # Build a Docker image and push to Docker Hub
   # Authenticate with Digital Ocean CLI and deploy the app
