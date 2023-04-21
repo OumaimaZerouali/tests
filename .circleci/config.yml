@@ -60,6 +60,7 @@ jobs:
           root: target/
           paths:
             - test-0.0.1-SNAPSHOT.jar
+      - run: ls -al target
       #- run: npm test
 
   # Build a Docker image and push to Docker Hub
