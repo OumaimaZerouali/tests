@@ -22,4 +22,8 @@ public class Endpoints {
         return "Endpoinst for the win";
     }
 
+    @GetMapping("/shit")
+    public String shit() {
+        return "shitttt for the win";
+    }
 }
