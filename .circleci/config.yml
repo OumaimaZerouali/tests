@@ -19,10 +19,12 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
+      # Install Maven
+      - run: sudo apt-get install -y maven
       # Allow using Docker commands
       - setup_remote_docker
       # Build the JAR file
-      - run: mvn clean package # or ./gradlew build if using Gradle
+      - run: mvn clean package
       # Build the Docker image
       - run: docker build -t myapp .
       - run: bash deploy.sh
