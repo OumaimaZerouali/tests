@@ -11,4 +11,4 @@ docker login --username redwizardofoz --password $DOCKERHUB_PASSWORD
 docker push "${IMAGE_NAME}:${IMAGE_TAG}"
 docker push "${IMAGE_NAME}:latest"
 
-docker run -p 8080:8080 "${IMAGE_NAME}:latest"
+#docker run -p 8080:8080 "${IMAGE_NAME}:latest"

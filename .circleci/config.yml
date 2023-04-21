@@ -21,7 +21,12 @@ jobs:
       - checkout
       # Allow using Docker commands
       - setup_remote_docker
+      # Build the JAR file
+      - run: mvn clean package # or ./gradlew build if using Gradle
+      # Build the Docker image
+      - run: docker build -t myapp .
       - run: bash deploy.sh
+
 server:
   port: 8080
 
