@@ -2,6 +2,10 @@
 IMAGE_NAME="redwizardofoz/project_test"
 IMAGE_TAG=$(git rev-parse --short HEAD) # first 7 characters of the current commit hash
 
+echo "Copying JAR file to target folder"
+mkdir -p target
+cp $HOME/project/target/*.jar target/test.jar
+
 echo "Building Docker image ${IMAGE_NAME}:${IMAGE_TAG}, and tagging as latest"
 docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" --build-arg CACHEBUST=$(date +%s) .
 #docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" .
