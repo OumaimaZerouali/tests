@@ -55,12 +55,26 @@ jobs:
       - image: maven:3.6.3-openjdk-17
     steps:
       - checkout
-      - run: mvn clean package
+      - restore_cache:
+          keys:
+            # Check for cache based on the pom.xml file
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # Check for cache based on the lock file
+            - v1-dependencies-{{ checksum "mvnw.lock" }}
+            # Check for cache based on the maven settings file
+            - v1-dependencies-{{ checksum "settings.xml" }}
+      - run: mvn clean package --no-transfer-progress
+      - save_cache:
+          paths:
+            # Save the dependency cache to speed up future builds
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
       - persist_to_workspace:
           root: target/
           paths:
             - test-0.0.1-SNAPSHOT.jar
       - run: ls -al target
+      #- run: npm test
 
   # Build a Docker image and push to Docker Hub
   # Authenticate with Digital Ocean CLI and deploy the app
@@ -72,12 +86,11 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      # Restore the workspace to ensure that the latest jar file is available
+      # Allow using Docker commands
+      - setup_remote_docker
       - restore_workspace:
           keys:
             - target/
-      # Allow using Docker commands
-      - setup_remote_docker
       - run: bash ./deploy.sh
 
 server:
