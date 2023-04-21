@@ -61,7 +61,6 @@ jobs:
           root: target/
           paths:
             - test-0.0.1-SNAPSHOT.
-          remove_existing: true
       - run: ls -al target
       #- run: npm test
 
