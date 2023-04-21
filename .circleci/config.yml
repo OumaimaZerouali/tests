@@ -75,9 +75,7 @@ jobs:
           at: /tmp/workspace
       # Allow using Docker commands
       - setup_remote_docker
-      # Build the Docker image
-      - run: docker build -t redwizardofoz/project_test .
-      - run: bash deploy.sh
+
 
 server:
   port: 8080
