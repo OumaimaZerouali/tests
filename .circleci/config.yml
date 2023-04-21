@@ -71,8 +71,7 @@ jobs:
           username: redwizardofoz
           password: $DOCKERHUB_PASSWORD
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
+      - checkout
       # Allow using Docker commands
       - setup_remote_docker
       - run: bash ./deploy.sh
