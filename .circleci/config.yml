@@ -55,24 +55,12 @@ jobs:
       - image: maven:3.6.3-openjdk-17
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            # Check for cache based on the pom.xml file
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            # Check for cache based on the lock file
-            - v1-dependencies-{{ checksum "mvnw.lock" }}
-            # Check for cache based on the maven settings file
-            - v1-dependencies-{{ checksum "settings.xml" }}
-      - run: mvn clean package --no-transfer-progress
-      - save_cache:
-          paths:
-            # Save the dependency cache to speed up future builds
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+      - run: mvn clean package
       - persist_to_workspace:
           root: target/
           paths:
-            - test-0.0.1-SNAPSHOT.jar
+            - test-0.0.1-SNAPSHOT.
+          remove_existing: true
       - run: ls -al target
       #- run: npm test
 
@@ -88,11 +76,7 @@ jobs:
       - checkout
       # Allow using Docker commands
       - setup_remote_docker
-      - restore_workspace:
-          keys:
-            - target/
       - run: bash ./deploy.sh
-
 server:
   port: 8080
 
@@ -106,4 +90,6 @@ workflows:
           requires:
             # Run after all tests have passed
             - build-and-test
+
+
 
