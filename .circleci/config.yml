@@ -61,7 +61,6 @@ jobs:
           paths:
             - test-0.0.1-SNAPSHOT.jar
       - run: ls -al target
-      #- run: npm test
 
   # Build a Docker image and push to Docker Hub
   # Authenticate with Digital Ocean CLI and deploy the app
@@ -73,9 +72,14 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
+      # Restore the workspace to ensure that the latest jar file is available
+      - restore_workspace:
+          keys:
+            - target/
       # Allow using Docker commands
       - setup_remote_docker
       - run: bash ./deploy.sh
+
 server:
   port: 8080
 
