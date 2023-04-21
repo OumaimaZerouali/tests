@@ -55,7 +55,7 @@ jobs:
     steps:
       - checkout
       - run: mvn clean package
-      - run: cp target/test.jar /tmp
+      #- run: cp target/test.jar /tmp
       #- run: npm test
 
   # Build a Docker image and push to Docker Hub
