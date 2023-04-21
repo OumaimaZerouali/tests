@@ -76,10 +76,7 @@ jobs:
       # Allow using Docker commands
       - setup_remote_docker
       # Build the Docker image
-      - run:
-        name: Build Docker image
-        command: |
-          docker build -t redwizardofoz/project_test -f Dockerfile .
+      - run: docker build -t redwizardofoz/project_test -f Dockerfile .
       - run: bash deploy.sh
 
 server:
