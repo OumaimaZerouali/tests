@@ -11,4 +11,10 @@ public class Endpoints {
         return "This does not seem fun";
     }
 
+    @GetMapping("/other")
+    public String other() {
+        return "Endpoint for the win";
+    }
+
+
 }
