@@ -45,7 +45,9 @@
 #            # Run after all tests have passed
 #            - build-and-test
 
+
 version: 2.1
+
 jobs:
   # Install dependencies and run tests
   build-and-test:
@@ -88,26 +90,5 @@ workflows:
             # Run after all tests have passed
             - build-and-test
 
-  # Clear cache before each build
-  clear-cache:
-    docker:
-      - image: circleci/buildpack-deps:stretch-scm
-    steps:
-      - run: circleci-agent clear-cache
-
-# Run the clear-cache job before each build
-executors:
-  default:
-    working_directory: ~/
-  clear-cache-executor:
-    docker:
-      - image: circleci/buildpack-deps:stretch-scm
-    resource_class: small
-  builds:
-    executor: clear-cache-executor
-    steps:
-      - clear-cache
-      - attach_workspace:
-          at: ~/
 
 
