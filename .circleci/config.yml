@@ -61,7 +61,7 @@ jobs:
           command: mvn package -DskipTests
   deploy:
         docker:
-          - image: circleci/node:12.15.0-stretch
+          - image: cimg/node:20.0.0
             auth:
               username: redwizardofoz
               password: $DOCKERHUB_PASSWORD
