@@ -94,31 +94,30 @@
 
 
 
-version: 2
+version: 2.1
+
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:11-jdk
+      - image: maven:3.6.3-jdk-11
+    working_directory: ~/
     steps:
       - checkout
       - run:
           name: Build JAR
-          command: ./mvnw package -DskipTests
+          command: mvn package -DskipTests
       - run:
           name: Build Docker Image
           command: |
             docker build -t my-app:${CIRCLE_SHA1} .
             docker tag my-app:${CIRCLE_SHA1} my-app:latest
-  deploy:
-    docker:
-      - image: my-app:latest
-    steps:
       - run:
-          name: Deploy to Docker Hub
+          name: Push Docker Image to Docker Hub
           command: |
-            echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+            echo login --username redwizardofoz --password $DOCKERHUB_PASSWORD
             docker push my-app:${CIRCLE_SHA1}
             docker push my-app:latest
+
 workflows:
   version: 2
   build-and-deploy:
@@ -127,9 +126,4 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+
