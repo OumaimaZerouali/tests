@@ -106,17 +106,6 @@ jobs:
       - run:
           name: Build JAR
           command: mvn package -DskipTests
-      - run:
-          name: Build Docker Image
-          command: |
-            docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" --build-arg CACHEBUST=$(date +%s) .
-            docker tag "${IMAGE_NAME}:${IMAGE_TAG}" "${IMAGE_NAME}:latest"
-      - run:
-          name: Push Docker Image to Docker Hub
-          command: |
-            echo login --username redwizardofoz --password $DOCKERHUB_PASSWORD
-            docker push "${IMAGE_NAME}:${IMAGE_TAG}"
-            docker push "${IMAGE_NAME}:latest"
 
 workflows:
   version: 2
