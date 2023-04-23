@@ -100,7 +100,7 @@ jobs:
   build:
     docker:
       - image: maven:3.6.3-jdk-11
-    working_directory: ~/
+    working_directory: ~/test
     steps:
       - checkout
       - run:
