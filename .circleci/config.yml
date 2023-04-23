@@ -106,7 +106,19 @@ jobs:
       - run:
           name: Build JAR
           command: mvn package -DskipTests
-      - run: bash ./deploy.sh
+deploy:
+      docker:
+        - image: circleci/node:12.15.0-stretch
+          auth:
+            username: redwizardofoz
+            password: $DOCKERHUB_PASSWORD
+      steps:
+        - checkout
+      # Allow using Docker commands
+        - setup_remote_docker
+        - run: bash ./deploy.sh
+server:
+  port: 8080
 workflows:
   version: 2
   build-and-deploy:
