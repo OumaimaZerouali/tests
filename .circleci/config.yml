@@ -106,7 +106,7 @@ jobs:
       - run:
           name: Build JAR
           command: mvn package -DskipTests
-
+      - run: bash ./deploy.sh
 workflows:
   version: 2
   build-and-deploy:
