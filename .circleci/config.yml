@@ -109,14 +109,14 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t my-app:${CIRCLE_SHA1} .
-            docker tag my-app:${CIRCLE_SHA1} my-app:latest
+            docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" --build-arg CACHEBUST=$(date +%s) .
+            docker tag "${IMAGE_NAME}:${IMAGE_TAG}" "${IMAGE_NAME}:latest"
       - run:
           name: Push Docker Image to Docker Hub
           command: |
             echo login --username redwizardofoz --password $DOCKERHUB_PASSWORD
-            docker push my-app:${CIRCLE_SHA1}
-            docker push my-app:latest
+            docker push "${IMAGE_NAME}:${IMAGE_TAG}"
+            docker push "${IMAGE_NAME}:latest"
 
 workflows:
   version: 2
