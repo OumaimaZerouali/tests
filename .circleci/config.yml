@@ -46,51 +46,90 @@
 #            - build-and-test
 
 
-version: 2.1
+#version: 2.1
+#
+#jobs:
+#  # Install dependencies and run tests
+#  build-and-test:
+#    docker:
+#      - image: maven:3.6.3-openjdk-17
+#    steps:
+#      - checkout
+#      - run: mvn clean package
+#      - run: test -f target/test-0.0.1-SNAPSHOT.jar
+#      - persist_to_workspace:
+#          root: target/
+#          paths:
+#            - test-0.0.1-SNAPSHOT.jar
+#      - run: cp target/test-0.0.1-SNAPSHOT.jar ./test-0.0.1-SNAPSHOT.jar
+#      - run: ls -al target
+#
+#
+#  # Build a Docker image and push to Docker Hub
+#  # Authenticate with Digital Ocean CLI and deploy the app
+#  deploy:
+#    docker:
+#      - image: circleci/node:12.15.0-stretch
+#        auth:
+#          username: redwizardofoz
+#          password: $DOCKERHUB_PASSWORD
+#    steps:
+#      - checkout
+#      # Allow using Docker commands
+#      - setup_remote_docker
+#      - run: bash ./deploy.sh
+#server:
+#  port: 8080
+#
+#workflows:
+#  version: 2
+#  # Workflow name
+#  build-deploy:
+#    jobs:
+#      - build-and-test
+#      - deploy:
+#          requires:
+#            # Run after all tests have passed
+#            - build-and-test
 
+
+
+version: 2
 jobs:
-  # Install dependencies and run tests
-  build-and-test:
+  build:
     docker:
-      - image: maven:3.6.3-openjdk-17
+      - image: circleci/openjdk:11-jdk
     steps:
       - checkout
-      - run: mvn clean package
-      - run: test -f target/test-0.0.1-SNAPSHOT.jar
-      - persist_to_workspace:
-          root: target/
-          paths:
-            - test-0.0.1-SNAPSHOT.jar
-      - run: cp target/test-0.0.1-SNAPSHOT.jar ./test-0.0.1-SNAPSHOT.jar
-      - run: ls -al target
-
-
-  # Build a Docker image and push to Docker Hub
-  # Authenticate with Digital Ocean CLI and deploy the app
+      - run:
+          name: Build JAR
+          command: ./mvnw package -DskipTests
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t my-app:${CIRCLE_SHA1} .
+            docker tag my-app:${CIRCLE_SHA1} my-app:latest
   deploy:
     docker:
-      - image: circleci/node:12.15.0-stretch
-        auth:
-          username: redwizardofoz
-          password: $DOCKERHUB_PASSWORD
+      - image: my-app:latest
     steps:
-      - checkout
-      # Allow using Docker commands
-      - setup_remote_docker
-      - run: bash ./deploy.sh
-server:
-  port: 8080
-
+      - run:
+          name: Deploy to Docker Hub
+          command: |
+            echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+            docker push my-app:${CIRCLE_SHA1}
+            docker push my-app:latest
 workflows:
   version: 2
-  # Workflow name
-  build-deploy:
+  build-and-deploy:
     jobs:
-      - build-and-test
+      - build:
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
-            # Run after all tests have passed
-            - build-and-test
-
-
-
+            - build
+          filters:
+            branches:
+              only: master
