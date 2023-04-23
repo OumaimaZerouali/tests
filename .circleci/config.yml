@@ -97,7 +97,7 @@
 version: 2.1
 
 jobs:
-  build:
+  build-and-test:
     docker:
       - image: maven:3.6.3-openjdk-17
     working_directory: ~/test
@@ -106,17 +106,17 @@ jobs:
       - run:
           name: Build JAR
           command: mvn package -DskipTests
-deploy:
-      docker:
-        - image: circleci/node:12.15.0-stretch
-          auth:
-            username: redwizardofoz
-            password: $DOCKERHUB_PASSWORD
-      steps:
-        - checkout
-      # Allow using Docker commands
-        - setup_remote_docker
-        - run: bash ./deploy.sh
+  deploy:
+        docker:
+          - image: circleci/node:12.15.0-stretch
+            auth:
+              username: redwizardofoz
+              password: $DOCKERHUB_PASSWORD
+        steps:
+          - checkout
+        # Allow using Docker commands
+          - setup_remote_docker
+          - run: bash ./deploy.sh
 server:
   port: 8080
 workflows:
